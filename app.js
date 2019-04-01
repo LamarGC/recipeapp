@@ -84,7 +84,7 @@ app.get("/recipes/:id", function(req,res){
 //COMMENTS ROUTES
 //===============
 
-app.get("/recipes/:id/comments/new", function(req,res){
+app.get("/recipes/:id/comments/new", isLoggedIn, function(req,res){
 	Recipe.findById(req.params.id, function(err, recipe){
 		if(err){
 			console.log(err);
@@ -95,7 +95,7 @@ app.get("/recipes/:id/comments/new", function(req,res){
 	});
 });
 
-app.post("/recipes/:id/comments", function(req,res){
+app.post("/recipes/:id/comments", isLoggedIn, function(req,res){
 	Recipe.findById(req.params.id, function(err, recipe){
 		if(err){
 			console.log(err);
@@ -150,5 +150,18 @@ app.post("/login", passport.authenticate("local",
 		 failureRedirect: "/login"
 	}), function(req,res){
 });
+
+//logout
+app.get("/logout", function(req,res){
+	req.logout();
+	res.redirect("/recipes");
+});
+
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect("/login");
+}
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
