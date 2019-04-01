@@ -3,30 +3,15 @@ const express = require("express"),
 	  bodyParser = require("body-parser"),
 	  mongoose = require("mongoose"),
 	  Recipe   = require("./models/recipe"),
+	  Comment   = require("./models/comment"),
 	  seedDB   = require("./seeds");
 	  port = 3000;
 
-seedDB();
+
 mongoose.connect("mongodb://localhost/recipeapp");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
-
-
-/*Recipe.create(
-	{
-		name:"pasta", 
-		image: "https://c3.staticflickr.com/5/4029/4410054560_1b2e236aa5_z.jpg",
-		description: "add water"
-	}, function(err, recipe){
-		if(err){
-			console.log(err);
-		}
-		else{
-			console.log("newly created recipe");
-			console.log(recipe);
-		}
-});*/
-
+//seedDB();
 
 
 //LANDING PAGE
@@ -69,11 +54,12 @@ app.post("/recipes", function(req,res){
 
 //SHOW
 app.get("/recipes/:id", function(req,res){
-	Recipe.findById(req.params.id, function(err, foundRecipe){
+	Recipe.findById(req.params.id).populate("comments").exec(function(err, foundRecipe){
 		if(err){
 			console.log(err);
 		}
 		else{
+			console.log(foundRecipe);
 			res.render("show", {recipe: foundRecipe});
 		}
 	});
