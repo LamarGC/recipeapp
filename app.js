@@ -2,20 +2,15 @@ const express = require("express"),
       app     = express(),
 	  bodyParser = require("body-parser"),
 	  mongoose = require("mongoose"),
+	  Recipe   = require("./models/recipe"),
+	  seedDB   = require("./seeds");
 	  port = 3000;
 
+seedDB();
 mongoose.connect("mongodb://localhost/recipeapp");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
 
-//SCHEMA SETUP
-var recipeSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	description: String
-});
-
-var Recipe = mongoose.model("Recipe", recipeSchema);
 
 /*Recipe.create(
 	{
