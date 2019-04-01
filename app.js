@@ -17,7 +17,7 @@ var recipeSchema = new mongoose.Schema({
 
 var Recipe = mongoose.model("Recipe", recipeSchema);
 
-Recipe.create(
+/*Recipe.create(
 	{
 		name:"pasta", 
 		image: "https://c3.staticflickr.com/5/4029/4410054560_1b2e236aa5_z.jpg",
@@ -30,7 +30,7 @@ Recipe.create(
 			console.log("newly created recipe");
 			console.log(recipe);
 		}
-});
+});*/
 
 
 
@@ -46,7 +46,7 @@ app.get("/recipes", function(req,res){
 			console.log(err);
 		}
 		else{
-			res.render("recipes", {recipes:allRecipes});
+			res.render("index", {recipes:allRecipes});
 		}
 	});
 });
@@ -60,7 +60,8 @@ app.get("/recipes/new", function(req,res){
 app.post("/recipes", function(req,res){
 	var name = req.body.name;
 	var image = req.body.image;
-	var newRecipe = {name:name, image:image};
+	var desc = req.body.description;
+	var newRecipe = {name:name, image:image, description:desc};
 	Recipe.create(newRecipe, function(err, newlyCreated){
 		if(err){
 			console.log(err);
@@ -71,8 +72,16 @@ app.post("/recipes", function(req,res){
 	});
 });
 
+//SHOW
 app.get("/recipes/:id", function(req,res){
-	res.send("this will be the show page");
+	Recipe.findById(req.params.id, function(err, foundRecipe){
+		if(err){
+			console.log(err);
+		}
+		else{
+			res.render("show", {recipe: foundRecipe});
+		}
+	});
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
