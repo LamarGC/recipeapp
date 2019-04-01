@@ -11,15 +11,17 @@ app.set("view engine", "ejs");
 //SCHEMA SETUP
 var recipeSchema = new mongoose.Schema({
 	name: String,
-	image: String
+	image: String,
+	description: String
 });
 
 var Recipe = mongoose.model("Recipe", recipeSchema);
 
-/*Recipe.create(
+Recipe.create(
 	{
 		name:"pasta", 
-		image: "https://c3.staticflickr.com/5/4029/4410054560_1b2e236aa5_z.jpg"
+		image: "https://c3.staticflickr.com/5/4029/4410054560_1b2e236aa5_z.jpg",
+		description: "add water"
 	}, function(err, recipe){
 		if(err){
 			console.log(err);
@@ -28,7 +30,7 @@ var Recipe = mongoose.model("Recipe", recipeSchema);
 			console.log("newly created recipe");
 			console.log(recipe);
 		}
-});*/
+});
 
 
 
@@ -67,6 +69,10 @@ app.post("/recipes", function(req,res){
 			res.redirect("/recipes");
 		}
 	});
+});
+
+app.get("/recipes/:id", function(req,res){
+	res.send("this will be the show page");
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
