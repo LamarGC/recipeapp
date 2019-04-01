@@ -80,4 +80,26 @@ app.get("/recipes/:id/comments/new", function(req,res){
 	});
 });
 
+app.post("/recipes/:id/comments", function(req,res){
+	Recipe.findById(req.params.id, function(err, recipe){
+		if(err){
+			console.log(err);
+			res.redirect("/recipe");
+		}
+		else{
+			Comment.create(req.body.comment, function(err, comment){
+				if(err){
+					console.log(err);
+				}
+				else{
+					recipe.comments.push(comment);
+					recipe.save();
+					res.redirect("/recipes/" + recipe._id);
+				}
+
+			});
+		}
+	});
+});
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
