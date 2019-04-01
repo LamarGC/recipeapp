@@ -26,14 +26,14 @@ app.get("/recipes", function(req,res){
 			console.log(err);
 		}
 		else{
-			res.render("index", {recipes:allRecipes});
+			res.render("recipes/index", {recipes:allRecipes});
 		}
 	});
 });
 
 //NEW
 app.get("/recipes/new", function(req,res){
-	res.render("new");
+	res.render("recipes/new");
 });
 
 //CREATE
@@ -60,7 +60,22 @@ app.get("/recipes/:id", function(req,res){
 		}
 		else{
 			console.log(foundRecipe);
-			res.render("show", {recipe: foundRecipe});
+			res.render("recipes/show", {recipe: foundRecipe});
+		}
+	});
+});
+
+//===============
+//COMMENTS ROUTES
+//===============
+
+app.get("/recipes/:id/comments/new", function(req,res){
+	Recipe.findById(req.params.id, function(err, recipe){
+		if(err){
+			console.log(err);
+		}
+		else{
+			res.render("comments/new", {recipe:recipe});
 		}
 	});
 });
