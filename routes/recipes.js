@@ -10,7 +10,7 @@ router.get("/", function(req,res){
 			console.log(err);
 		}
 		else{
-			res.render("recipes/index", {recipes:allRecipes});
+			res.render("recipes/index", {recipes:allRecipes, page: "recipes"});
 		}
 	});
 });
@@ -23,13 +23,14 @@ router.get("/new", middleware.isLoggedIn, function(req,res){
 //CREATE
 router.post("/", middleware.isLoggedIn, function(req,res){
 	var name = req.body.name;
+	var price = req.body.price;
 	var image = req.body.image;
 	var desc = req.body.description;
 	var author = {
 		id: req.user._id,
 		username: req.user.username
 	};
-	var newRecipe = {name:name, image:image, description:desc, author:author};
+	var newRecipe = {name:name, price: price, image:image, description:desc, author:author};
 	Recipe.create(newRecipe, function(err, newlyCreated){
 		if(err){
 			console.log(err);
