@@ -52,6 +52,31 @@ router.get("/:id", function(req,res){
 	});
 });
 
+//EDIT
+router.get("/:id/edit", function(req, res){
+	Recipe.findById(req.params.id, function(err, foundRecipe){
+		if(err){
+			res.redirect("/recipes");
+		}
+		else{
+			res.render("recipes/edit", {recipe: foundRecipe});
+		}
+	});
+});
+
+
+//UPDATE
+router.put("/:id", function(req, res){
+	Recipe.findByIdAndUpdate(req.params.id, req.body.recipe, function(err, updatedRecipe){
+		if(err){
+			res.redirect("/recipes");
+		}
+		else{
+			res.redirect("/recipes/" + req.params.id);
+		}
+	});
+});
+
 
 function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){
