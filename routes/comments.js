@@ -33,6 +33,9 @@ router.post("/", isLoggedIn, function(req,res){
 					console.log(err);
 				}
 				else{
+					comment.author.id = req.user._id;
+					comment.author.username = req.user.username;
+					comment.save();
 					recipe.comments.push(comment);
 					recipe.save();
 					res.redirect("/recipes/" + recipe._id);

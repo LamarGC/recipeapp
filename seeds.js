@@ -26,7 +26,7 @@ function seedDB(){
             console.log(err);
         }
         console.log("removed recipe");
-        data.forEach(function(seed){
+        /*data.forEach(function(seed){
             Recipe.create(seed, function(err, recipe){
                 if(err){
                     console.log(err);
@@ -49,7 +49,7 @@ function seedDB(){
                         });
                 }
             });
-        });
+        });*/
     });
 }
 
