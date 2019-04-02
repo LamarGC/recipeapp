@@ -77,6 +77,18 @@ router.put("/:id", function(req, res){
 	});
 });
 
+//DESTROY
+router.delete("/:id", function(req, res){
+	Recipe.findByIdAndRemove(req.params.id, function(err){
+		if(err){
+			res.redirect("/recipes");
+		}
+		else{
+			res.redirect("/recipes")
+		}
+	});
+});
+
 
 function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){
