@@ -25,6 +25,7 @@ router.get("/new", middleware.isLoggedIn, function(req,res){
 router.post("/", middleware.isLoggedIn, function(req,res){
 	Recipe.findById(req.params.id, function(err, recipe){
 		if(err){
+			req.flash("error", "Something went wrong");
 			console.log(err);
 			res.redirect("/recipe");
 		}
@@ -39,6 +40,7 @@ router.post("/", middleware.isLoggedIn, function(req,res){
 					comment.save();
 					recipe.comments.push(comment);
 					recipe.save();
+					req.flash("success", "Successfully added comment");
 					res.redirect("/recipes/" + recipe._id);
 				}
 
@@ -79,6 +81,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
 			res.redirect("back");
 		}
 		else{
+			req.flash("success", "Comment deleted");
 			res.redirect("/recipes/" + req.params.id);
 		}
 	});
